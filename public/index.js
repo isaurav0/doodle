@@ -1,6 +1,8 @@
+var socket = io.connect("localhost:3000");
 var canvas = document.getElementById('canvas');
 var ctx = canvas.getContext('2d');
 var mousedown = false;
+var curveColor = 'black';
 var prev;
 canvas.position = 'relative';
 canvas.height = window.innerHeight-3;
@@ -26,24 +28,34 @@ canvas.addEventListener('mousedown', e=>{
 	prev = e;
 })
 
-canvas.addEventListener('mousemove', e=>draw(e))
+canvas.addEventListener('mousemove', e=>{
+	if(mousedown)
+		draw(e, prev, true)
+})
 
 canvas.addEventListener('mouseup', e=>{
     mousedown = false
 })
 
-
-
-function draw(e){
-    if(mousedown==true){
-        ctx.strokeStyle = "Green";
-        ctx.beginPath();
-	ctx.moveTo(prev.x, prev.y);
-	ctx.lineTo(e.x, e.y);
-        ctx.stroke();
-	prev = e;
-        console.log('dragged')
-    }
+function setColor(color){
+	curveColor = color;
 }
 
+function draw(e, previous, emit){
+	console.log(e, previous)
+        ctx.strokeStyle = curveColor;
+        ctx.beginPath();
+	ctx.moveTo(previous.x, previous.y);
+	ctx.lineTo(e.x, e.y);
+        ctx.stroke();
+	if(emit){
+		socket.emit("draw", {point:{x: e.x, y:e.y}, prev:{x: prev.x, y: prev.y, color: color}})
+		prev = e;
+	}
+}
 
+socket.on("listening", data=>{
+	console.log(data.data)
+	result = JSON.parse(data.data)
+	draw(result.point, result.prev, false)
+})

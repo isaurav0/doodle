@@ -15,6 +15,9 @@ io = socket(server)
 rooms = {}
 
 io.on('connection', (socket)=>{
-    console.log('socket connected')
-    
-})
+   	console.log('socket connected: ', socket.id);
+	socket.on("draw", data=>{
+		socket.broadcast.emit('listening', {data: JSON.stringify(data)});
+		//console.log(data.point.x);
+	})
+});

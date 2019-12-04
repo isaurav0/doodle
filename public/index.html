@@ -19,10 +19,22 @@
             padding: 0px;
             border: 1px solid yellow;
         }
+
+	.color{
+		height: 1em;
+	}
     </style>
 </head>
 <body>
-    <canvas id='canvas'></canvas>
-    <script src="./index.js"></script>
+	<button id='red' style="background: red;" class='color' onclick="setColor(this.id)"></button>
+	<button id='blue' class='color' style="background: blue;" onclick="setColor(this.id)"></button>
+	<button id='green' class='color' style="background: green;" onclick="setColor(this.id)"></button>
+	<button id='orange' class='color' style="background: orange;" onclick="setColor(this.id)"></button>
+	<button id='yellow' class='color' style="background: yellow;" onclick="setColor(this.id)"></button>
+	<button id='purple' class='color' style="background: purple;" onclick="setColor(this.id)"></button>
+	<button id='pink' class='color' style="background: pink;" onclick="setColor(this.id)"></button>
+	<button id='black' class='color' style="background: black;" onclick="setColor(this.id)"></button>
+	<canvas id='canvas'></canvas>
+	<script src="./index.js"></script>
 </body>
 </html>
